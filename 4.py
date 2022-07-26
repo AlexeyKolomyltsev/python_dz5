@@ -3,18 +3,17 @@
 import random
 import os
 
-def print_array(table):
+def print_array(table):   #распечатать таблицу
     os.system('cls')
     for i in range(1, 10):
         print(f"{table[i - 1]} ", end="")
         if not i%3: print()
 
-def zapolnenie(array, array_iskl, flag):
+def zapolnenie(array, array_iskl, flag): #ф-я заполнения таблицы О и Х
     x = int(input("Выберете клетку: "))
     if x in array_iskl:
         for i in range(len(array)):
             if array[i] == x:
-                # array[i] = 'ppp'
                 if flag: array[i] = "X"
                 else: array[i] = "O"
         array_iskl.remove(x)
@@ -23,7 +22,7 @@ def zapolnenie(array, array_iskl, flag):
         zapolnenie(array, array_iskl, flag)
         
 
-def win_game(array, flag):
+def win_game(array): #победные варианты
     if (array[0] == array[1] == array[2] or
      array[3] == array[4] == array[5] or
      array[6] == array[7] == array[8] or
@@ -37,29 +36,28 @@ def win_game(array, flag):
         return False
         
 
-def igra(array, array_iskl, flag):
+def igra(array, array_iskl, flag):  #сама игра
     print_array(array)
     if array_iskl == []:
         print("Никто не выиграл")
         return
     
     if flag:
-        print("Ходит первый игрок")
         igrok = "первый"
     else: 
-        print("Ходит второй игрок")
         igrok = 'второй'
-
+    print(f"Ходит {igrok} игрок")
     
     zapolnenie(array, array_iskl, flag)
-    if win_game(array, flag):
+    
+    if win_game(array):
         print_array(array)
         print(f"Выиграл {igrok} игрок \n ИГРА ЗАВЕРШЕНА")
         return
     igra(array, array_iskl, not flag)
 
-table = [int(i) for i in range(1, 10)]
-table_iskl = [int(i) for i in range(1, 10)]
+table = [int(i) for i in range(1, 10)]      #исходная таблица игры
+table_iskl = [int(i) for i in range(1, 10)] #таблица для завершения игры
 
-flag =random.randint(0,1)
+flag = random.randint(0,1)
 igra(table, table_iskl, flag)
